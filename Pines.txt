@@ -1,0 +1,2 @@
+Declaren los pines que estan utilizando para que no
+existan conflictos.
