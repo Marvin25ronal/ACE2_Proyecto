@@ -1,2 +1,4 @@
 Declaren los pines que estan utilizando para que no
 existan conflictos.
+
+INGRID -> 3, 2, 4, 5, A0
