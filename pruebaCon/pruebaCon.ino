@@ -6,12 +6,20 @@
 #include "WifiLocation.h"           //https://github.com/gmag11/WifiLocation
 
 SoftwareSerial NodeMCU(D2,D3);
-<<<<<<< HEAD
+const char* ssid="INTERNET NAME";
+const char* password="INTERNET PASSWORD";
 
-const char* ssid="AndroidAP_S10";
+//*********************************************************LOCATION
+#define GOOGLE_KEY "API KEY"
+WifiLocation location(GOOGLE_KEY);
+String latitud, longitud;
 
-#define GOOGLE_KEY "AIzaSyDRvymLOxDMUHGYC4VS-BlH1MnWLDfzWfI"
-
+//*********************************************************TIME
+// Define NTP Client to get time
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
+// Variables to save date and time
+String fecha, tiempo;
 
 void setup() {
   // put your setup code here, to run once:
@@ -26,7 +34,6 @@ void setup() {
 
   Serial.println();
   Serial.print("Connecting");
-
   while( WiFi.status() != WL_CONNECTED ){
       delay(1000);
       Serial.print(".");
