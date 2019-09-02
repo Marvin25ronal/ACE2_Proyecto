@@ -29,7 +29,7 @@ boolean estaEchando = false;
 boolean seVaALlenar = false;
 
 //TEMPERATURA
-DHT dht(40, DHT11);
+DHT dht(22, DHT11);
 
 //GAS
 // Pin del Arduino donde conectamos la pata A0 del módulo
@@ -42,7 +42,7 @@ int metano = -1;
 
 void setup() {
   Serial.begin(9600); // start connection to HX711
-  Serial1.begin(9600);
+  Serial1.begin(4800);
   
   //Serial.println("INICIO");
   LoadCell.begin();
@@ -60,32 +60,37 @@ void setup() {
 }
 
 void loop() {
-  String wifiInfo = "null";
+  String informacion_sensores="";
+  String wifiInfo = "";
+  calcularPeso();
+ calcularTemp();
+ calcularGas();
+consultarAgua();
+ consultarUltrasonico();
   if(Serial1.available()>0){
     wifiInfo = Serial1.readStringUntil('\n');
+  
+    informacion_sensores += temperatura; 
+    informacion_sensores += ",";
+    informacion_sensores += porcentajeAgua;
+    informacion_sensores+=",";  
+    informacion_sensores += metano;
+    informacion_sensores+=",";
+    informacion_sensores += peso;
+    Serial.print(wifiInfo); // pasa informacion del gps a processing
+    Serial.println(informacion_sensores); // pasa los sensores a processing
+    //Serial1.println(informacion_sensores);// pasa informacion al modulo wifi de los sensores
+    
   }
   
-  calcularPeso();
-  consultarAgua();
-  consultarUltrasonico();
-  calcularTemp();
-  calcularGas();
+  
 
-  Serial.print(wifiInfo);
-  Serial.print(",");
-  Serial.print(temperatura);
-  Serial.print(",");
-  Serial.print(porcentajeAgua);
-  Serial.print(",");
-  Serial.print(metano);
-  Serial.print(",");
-  Serial.println(peso);
-  Serial1.println("Prro");
+ 
   /*Serial.print("Info: ");
   Serial.println(wifiInfo);
   Serial1.print(wifiInfo);
   Serial1.println("x2");*/
-  delay(1000);
+ //delay(1000);
 }
 
 void calcularGas(){

@@ -6,8 +6,8 @@
 #include "WifiLocation.h"           //https://github.com/gmag11/WifiLocation
 
 SoftwareSerial NodeMCU(D2,D3);
-const char* ssid="INTERNET NAME";
-const char* password="INTERNET PASSWORD";
+const char* ssid="Ecys Lab";
+const char* password="2Pecys14";
 
 //*********************************************************LOCATION
 #define GOOGLE_KEY "API KEY"
@@ -24,7 +24,7 @@ String fecha, tiempo;
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  NodeMCU.begin(9600);
+  NodeMCU.begin(4800);
   
   //pinMode(2,OUTPUT);
   /*Serial.print("Wifi connecting to ");
@@ -69,16 +69,25 @@ void loop() {
 
   //TIME
   getTime();
+  String informacion_gps="";
+  informacion_gps=latitud;
+  informacion_gps+=",";
+  informacion_gps+=longitud;
+  informacion_gps+=",";
+  informacion_gps+=fecha;
+  informacion_gps+=",";
+  informacion_gps+=tiempo;
+  informacion_gps+=",";
+  NodeMCU.println(informacion_gps); // pasa sensor gps a arduino
+ String arduino_info="";
+  if(NodeMCU.available()>0){
+    arduino_info = NodeMCU.readStringUntil('\n');  // resive del arduino la info  
+    informacion_gps+= arduino_info; // datos solo para emviar al metodo get
+  //  prueba(informacion_gps);
+  }
 
   //ENVIAR DATA AL ARDUINO
-  NodeMCU.print(latitud);
-  NodeMCU.print(",");
-  NodeMCU.print(longitud);
-  NodeMCU.print(",");
-  NodeMCU.print(fecha);
-  NodeMCU.print(",");  
-  NodeMCU.println(tiempo);
-  //NodeMCU.println(",");    
+   
 }
 
 void getTime(){
@@ -98,12 +107,12 @@ void getTime(){
   delay(1000);
 }
 
-/*void prueba(){
+void prueba(String datos_obtenidos ){
   if(WiFi.status()==WL_CONNECTED){
     HTTPClient http;
     Serial.print("[HTTP] begin..\n");
    //http.begin("http://www.json-generator.com/api/json/get/cquDZXUdiW?indent=2"); //HTTP
-   http.begin("https://arqui2-prueba2.herokuapp.com/pendiente", "9ba996f2c2eb712b55920dcebf39532761a7b8bd"); //HTTPS
+   http.begin("url/"+datos_obtenidos, "9ba996f2c2eb712b55920dcebf39532761a7b8bd"); //HTTPS
     Serial.println("[HTTP] GET ...");
     int httpCode=http.GET();
     if (httpCode > 0) {
@@ -145,4 +154,4 @@ void getTime(){
     Serial.print("Error al enviar");
   }
   delay(10);
-}*/
+}
