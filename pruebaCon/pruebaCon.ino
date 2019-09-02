@@ -1,11 +1,25 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
-SoftwareSerial NodeMCU(D2,D3);
-
+#include <NTPClient.h>              //https://github.com/taranais/NTPClient
+#include <WiFiUdp.h>
 #include "ESP8266HTTPClient.h"
-const char* ssid="AndroidAP_S10";
-const char* password="Marvin25";
+#include "WifiLocation.h"           //https://github.com/gmag11/WifiLocation
 
+SoftwareSerial NodeMCU(D2,D3);
+const char* ssid="ARRIS-EA1A";
+const char* password="2C8132173489";
+
+//*********************************************************LOCATION
+#define GOOGLE_KEY "AIzaSyDRvymLOxDMUHGYC4VS-BlH1MnWLDfzWfI"
+WifiLocation location(GOOGLE_KEY);
+String latitud, longitud;
+
+//*********************************************************TIME
+// Define NTP Client to get time
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP);
+// Variables to save date and time
+String fecha, tiempo;
 
 void setup() {
   // put your setup code here, to run once:
@@ -22,23 +36,57 @@ void setup() {
   Serial.print("Connecting");
 
   while( WiFi.status() != WL_CONNECTED ){
-      delay(500);
+      delay(1000);
       Serial.print(".");
   }
-   Serial.println();
-
+  Serial.println();
   Serial.println("Wifi Connected Success!");
   Serial.print("NodeMCU IP Address : ");
   Serial.println(WiFi.localIP() );
+
+  //LOCATION
+  location_t loc = location.getGeoFromWiFi();
+  //Serial.println("Location request data");
+  Serial.println(location.getSurroundingWiFiJson());
+  latitud = String(loc.lat, 7);
+  longitud = String(loc.lon, 7);
+  Serial.println("Latitude: " + latitud);
+  Serial.println("Longitude: " + longitud);
+  Serial.println("Accuracy: " + String(loc.accuracy));
+  
+  //TIME
+  timeClient.begin();
+  timeClient.setTimeOffset(-21600);
 }
 
 
 void loop() {
   // put your main code here, to run repeatedly:
   digitalWrite(2,HIGH);
-  prueba();
-  delay(5000);
+  //prueba();
+  //delay(5000);
+  
+  //TIME
+  getTime();
 }
+
+void getTime(){
+  while(!timeClient.update()) {
+    timeClient.forceUpdate();
+  }
+  String formattedDate = timeClient.getFormattedDate();
+  int splitT = formattedDate.indexOf("T");
+  
+  fecha = formattedDate.substring(0, splitT);
+  Serial.print("Fecha: ");
+  Serial.println(fecha);
+
+  tiempo = formattedDate.substring(splitT+1, formattedDate.length()-1);
+  Serial.print("Tiempo: ");
+  Serial.println(tiempo);
+  delay(1000);
+}
+
 void prueba(){
   if(WiFi.status()==WL_CONNECTED){
     HTTPClient http;
