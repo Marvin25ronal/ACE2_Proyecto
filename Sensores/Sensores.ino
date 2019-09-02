@@ -77,6 +77,10 @@ consultarAgua();
     informacion_sensores += metano;
     informacion_sensores+=",";
     informacion_sensores += peso;
+    informacion_sensores+=",";
+    informacion_sensores += contador_de_uso;
+    informacion_sensores+=",";
+    informacion_sensores+=lleno;
     Serial.print(wifiInfo); // pasa informacion del gps a processing
     Serial.println(informacion_sensores); // pasa los sensores a processing
     //Serial1.println(informacion_sensores);// pasa informacion al modulo wifi de los sensores
