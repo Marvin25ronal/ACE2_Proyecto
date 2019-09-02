@@ -1,10 +1,20 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
 SoftwareSerial NodeMCU(D2,D3);
+<<<<<<< HEAD
 
 #include "ESP8266HTTPClient.h"
 const char* ssid="AndroidAP_S10";
 const char* password="Marvin25";
+=======
+const char* ssid="ARRIS-EA1A";
+const char* password="2C8132173489";
+
+//*********************************************************LOCATION
+#define GOOGLE_KEY "AIzaSyDRvymLOxDMUHGYC4VS-BlH1MnWLDfzWfI"
+WifiLocation location(GOOGLE_KEY);
+String latitud, longitud;
+>>>>>>> parent of 62cb28e... Update pruebaCon.ino
 
 
 void setup() {
