@@ -6,7 +6,7 @@
 #include <DHT_U.h>
 
 //Trig,echo
-
+SoftwareSerial NodeMCU(19, 18);
 Ultrasonic ultrasonic(3, 2);
 float calibrar = 900.0;
 HX711_ADC LoadCell(4, 5);
@@ -37,16 +37,17 @@ DHT dht(40, DHT11);
 // Cambio en las lecturas (en porcentaje) que consideraremos significativo
 #define CAMBIO_SIGNIFICATIVO 3
 
-String wifiInfo;
-
+//String wifiInfo;
 int metano = -1;
 
 void setup() {
   Serial.begin(9600); // start connection to HX711
-  Serial.println("INICIO");
+  Serial1.begin(9600);
+  
+  //Serial.println("INICIO");
   LoadCell.begin();
   LoadCell.start(2000); // load cells gets 2000ms of time to stabilize
-  Serial.println("Ya se estabilizó");
+  //Serial.println("Ya se estabilizó");
   LoadCell.setCalFactor(calibrar); // calibration factor for load cell => strongly dependent on your individual setup
   pinMode(10, OUTPUT);
   pinMode(9, OUTPUT);
@@ -58,10 +59,10 @@ void setup() {
   dht.begin();
 }
 
-
 void loop() {
+  String wifiInfo = "null";
   if(Serial1.available()>0){
-    wifiInfo = Serial1.read();
+    wifiInfo = Serial1.readStringUntil('\n');
   }
   
   calcularPeso();
@@ -70,6 +71,8 @@ void loop() {
   calcularTemp();
   calcularGas();
 
+  Serial.print(wifiInfo);
+  Serial.print(",");
   Serial.print(temperatura);
   Serial.print(",");
   Serial.print(porcentajeAgua);
@@ -77,6 +80,12 @@ void loop() {
   Serial.print(metano);
   Serial.print(",");
   Serial.println(peso);
+  Serial1.println("Prro");
+  /*Serial.print("Info: ");
+  Serial.println(wifiInfo);
+  Serial1.print(wifiInfo);
+  Serial1.println("x2");*/
+  delay(1000);
 }
 
 void calcularGas(){
@@ -84,31 +93,31 @@ void calcularGas(){
   //Se revisa si el cambio es suficiente para cambiar el valor
   if (abs(nuevoValor-metano) >= (10.23*CAMBIO_SIGNIFICATIVO)) { 
     metano = nuevoValor;
-    Serial.println(String("Nuevo valor de gas detectado: ") + metano);
+    //Serial.println(String("Nuevo valor de gas detectado: ") + metano);
   }
   //delay(100);
 }
 
 void calcularTemp(){
   temperatura = dht.readTemperature();
-  Serial.print("Temperatura: ");
-  Serial.println(temperatura);  
+  //Serial.print("Temperatura: ");
+  //Serial.println(temperatura);  
   //delay(1000);
 }
 
 void calcularPeso() {
   LoadCell.update();
   float i = LoadCell.getData() * 10;
-  Serial.print("Weight[g]:");
-  Serial.println(i);
+  //Serial.print("Weight[g]:");
+  //Serial.println(i);
   peso = i;
   delay(100);
 }
 
 void consultarUltrasonico() {
   distancia = ultrasonic.read();
-  Serial.print("Distance in CM: ");
-  Serial.println(distancia);
+  //Serial.print("Distance in CM: ");
+  //Serial.println(distancia);
   if(distancia<dist_max){
     digitalWrite(13,HIGH);
   }else {
@@ -153,7 +162,7 @@ void consultarLlenado() {
     if (distancia < dist_max) {
       tLf = millis();
       if ((tLf - tL0) > 5000) {
-        Serial.println("Entra aqui**********************************");
+        //Serial.println("Entra aqui**********************************");
         lleno = true;
         digitalWrite(10, HIGH);
         tone(7, 1000);
@@ -191,10 +200,10 @@ void consultarAgua() {
     digitalWrite(8, LOW);
   }
   int sensorValue = analogRead(analogInPin);
-  Serial.print("Sensor de agua = " );
-  Serial.print(sensorValue * 100 / 1024);
+  //Serial.print("Sensor de agua = " );
+  //Serial.print(sensorValue * 100 / 1024);
   porcentajeAgua = sensorValue * 100 / 1024;
-  Serial.println("%");
+  //Serial.println("%");
   if (porcentajeAgua > 3) {
     hayLiquido = true;
   } else {

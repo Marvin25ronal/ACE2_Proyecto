@@ -23,36 +23,37 @@ String fecha, tiempo;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(115200);
-  pinMode(2,OUTPUT);
-  Serial.print("Wifi connecting to ");
-  Serial.println( ssid );
-  
+  Serial.begin(9600);
   NodeMCU.begin(9600);
+  
+  //pinMode(2,OUTPUT);
+  /*Serial.print("Wifi connecting to ");
+  Serial.println( ssid );*/
+  
   pinMode(D2,INPUT);
   pinMode(D3,OUTPUT);
   WiFi.begin(ssid,password);
 
-  Serial.println();
-  Serial.print("Connecting");
+  /*Serial.println();
+  Serial.print("Connecting");*/
   while( WiFi.status() != WL_CONNECTED ){
       delay(1000);
-      Serial.print(".");
+      //Serial.print(".");
   }
-  Serial.println();
+  /*Serial.println();
   Serial.println("Wifi Connected Success!");
   Serial.print("NodeMCU IP Address : ");
-  Serial.println(WiFi.localIP() );
+  Serial.println(WiFi.localIP() );*/
 
   //LOCATION
   location_t loc = location.getGeoFromWiFi();
   //Serial.println("Location request data");
-  Serial.println(location.getSurroundingWiFiJson());
+  //Serial.println(location.getSurroundingWiFiJson());
   latitud = String(loc.lat, 7);
   longitud = String(loc.lon, 7);
-  Serial.println("Latitude: " + latitud);
+  /*Serial.println("Latitude: " + latitud);
   Serial.println("Longitude: " + longitud);
-  Serial.println("Accuracy: " + String(loc.accuracy));
+  Serial.println("Accuracy: " + String(loc.accuracy));*/
   
   //TIME
   timeClient.begin();
@@ -76,8 +77,8 @@ void loop() {
   NodeMCU.print(",");
   NodeMCU.print(fecha);
   NodeMCU.print(",");  
-  NodeMCU.print(tiempo);
-  NodeMCU.println(",");    
+  NodeMCU.println(tiempo);
+  //NodeMCU.println(",");    
 }
 
 void getTime(){
@@ -88,16 +89,16 @@ void getTime(){
   int splitT = formattedDate.indexOf("T");
   
   fecha = formattedDate.substring(0, splitT);
-  Serial.print("Fecha: ");
-  Serial.println(fecha);
+  //Serial.print("Fecha: ");
+  //Serial.println(fecha);
 
   tiempo = formattedDate.substring(splitT+1, formattedDate.length()-1);
-  Serial.print("Tiempo: ");
-  Serial.println(tiempo);
+  //Serial.print("Tiempo: ");
+  //Serial.println(tiempo);
   delay(1000);
 }
 
-void prueba(){
+/*void prueba(){
   if(WiFi.status()==WL_CONNECTED){
     HTTPClient http;
     Serial.print("[HTTP] begin..\n");
@@ -144,4 +145,4 @@ void prueba(){
     Serial.print("Error al enviar");
   }
   delay(10);
-}
+}*/
