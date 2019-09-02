@@ -27,6 +27,7 @@ void setup() {
   pinMode(2,OUTPUT);
   Serial.print("Wifi connecting to ");
   Serial.println( ssid );
+  
   NodeMCU.begin(9600);
   pinMode(D2,INPUT);
   pinMode(D3,OUTPUT);
@@ -61,12 +62,22 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  digitalWrite(2,HIGH);
+  //digitalWrite(2,HIGH);
   //prueba();
   //delay(5000);
-  
+
   //TIME
   getTime();
+
+  //ENVIAR DATA AL ARDUINO
+  NodeMCU.print(latitud);
+  NodeMCU.print(",");
+  NodeMCU.print(longitud);
+  NodeMCU.print(",");
+  NodeMCU.print(fecha);
+  NodeMCU.print(",");  
+  NodeMCU.print(tiempo);
+  NodeMCU.println(",");    
 }
 
 void getTime(){
