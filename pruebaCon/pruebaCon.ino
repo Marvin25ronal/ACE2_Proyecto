@@ -6,11 +6,11 @@
 #include "WifiLocation.h"           //https://github.com/gmag11/WifiLocation
 
 SoftwareSerial NodeMCU(D2,D3);
-const char* ssid="ARRIS-EA1A";
-const char* password="2C8132173489";
+const char* ssid="INTERNET NAME";
+const char* password="INTERNET PASSWORD";
 
 //*********************************************************LOCATION
-#define GOOGLE_KEY "AIzaSyDRvymLOxDMUHGYC4VS-BlH1MnWLDfzWfI"
+#define GOOGLE_KEY "API KEY"
 WifiLocation location(GOOGLE_KEY);
 String latitud, longitud;
 
