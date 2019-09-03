@@ -70,7 +70,7 @@ void setup() {
   //
   DFPlayerSerial.begin(9600);
    mp3_set_serial(DFPlayerSerial);
-   mp3_set_volume(50);//50
+   mp3_set_volume(40);//50
    //
    myservo.attach(9);  // attaches the servo on pin 9 to the servo object
 }
