@@ -1,9 +1,10 @@
 #include <HX711_ADC.h> // https://github.com/olkal/HX711_ADC
-#include <Wire.h>
+#include <Wire.h>      //es el proyecto?
 #include <Ultrasonic.h>
-#include <SoftwareSerial.h>
-#include <DHT.h>
-#include <DHT_U.h>
+#include <SoftwareSerial.h> //las pasamos a "algo.h" en vez de importar librerias  tal vez así si funcione ??
+#include <DHT.h> // elimina laslibrerias de dht y las de hx711 
+#include <DHT_U.h> //funciona? aun lo estoy conectando perame
+
 
 //Trig,echo
 SoftwareSerial NodeMCU(19, 18);
@@ -83,7 +84,7 @@ consultarAgua();
     informacion_sensores+=lleno;
     Serial.print(wifiInfo); // pasa informacion del gps a processing
     Serial.println(informacion_sensores); // pasa los sensores a processing
-    //Serial1.println(informacion_sensores);// pasa informacion al modulo wifi de los sensores
+    Serial1.println(informacion_sensores);// pasa informacion al modulo wifi de los sensores
     
   }
   
