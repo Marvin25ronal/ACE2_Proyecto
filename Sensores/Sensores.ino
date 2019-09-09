@@ -120,6 +120,12 @@ void calcularPeso() {
   float i = LoadCell.getData() * 10;
   //Serial.print("Weight[g]:");
   //Serial.println(i);
+  if(i-peso > 10){
+	peso_individual = i-peso;
+  }
+  if(peso < 0){
+	peso_individual = 0;
+  }
   peso = i;
   delay(100);
 }
