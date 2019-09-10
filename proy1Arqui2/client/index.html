@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<title>Arqui2 Proy1!</title>
+
+<!-- https://www.youtube.com/watch?v=Bm6u1f2PUag -->
+<link rel="stylesheet" href="cubo.css">
+<link rel="stylesheet" href="termometro.css">
+<link rel="stylesheet" href="velocimetro.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<style>
+	/* Always set the map height explicitly to define the size of the div
+	* element that contains the map. */
+	#map {
+		height: 100%;
+	}
+	/* Optional: Makes the sample page fill the window. */
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
+</head>
+
+<body>
+<h2 style="text-align: center;">UNIVERSIDAD DE SAN CARLOS DE GUATEMALA</h2>
+<h3 style="text-align: center;">Arqui2 Grupo 15</h3>
+<hr/>
+<table style="width:100%">
+<tr>
+<td>
+<h5 style="text-align: center;">Estado del basurero</h5>
+</td>
+<td>
+<a href="default.html"><h5 style="text-align: center;">Logs del basurero</h5></a>
+</td>
+</tr>
+</table>
+<a href="Graph.html"><h5 style="text-align: center;">Graficas</h5></a>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+	
+
+<table style="width:100%" ng-repeat="x in names">
+	<tr>
+		<td><h2 style="text-align: center; "> Fecha: {{x.fecha}}</h2></td>
+		<td><h2 style="text-align: center; "> Hora:  {{x.hora}}</h2></td>
+	</tr>
+	<tr>
+		<td>
+			<div class="paintBucket">
+			<div class="paintBucketLeft"></div>
+			
+			<div class="middle">
+				<div class="bigArrow">
+				<div class="smallArrow"></div>
+				</div>
+				<div class="middleLeft"></div>
+				<div class="middleRight"></div>
+			</div>
+			
+			<div class="paintBucketRight"></div>
+			
+			<div class="lid">
+				<div class="handle"></div>
+				
+				<div class="shadow"></div>
+				
+				
+				
+				
+				<div class="{{ x.hayagua ? 'paintHelp' : '' }}"></div>
+				<div class="{{ x.hayagua ? 'paint' : '' }}">
+				<div class="{{ x.hayagua ? 'paintSetUp' : '' }}">
+					<div class="{{ x.hayagua ? 'paintDripLeft' : '' }}"></div>
+					<div class="{{ x.hayagua ? 'paintDripLong' : '' }}"></div>
+					<div class="{{ x.hayagua ? 'paintDrip' : '' }}">
+					<div class="{{ x.hayagua ? 'paintDripInset' : '' }}"></div>
+					</div>
+					<div class="{{ x.hayagua ? 'paintDripConnect' : '' }}"></div>
+				</div>
+				</div>
+				{{ x.hayagua ? '' : '' }}
+				
+				
+			</div>
+			<div class="bottom"></div>
+			<!-- https://codepen.io/alexsafayan/pen/LmtJp -->
+			</div>
+			<p style="text-align: center;">{{x.peso}}g, {{ x.hayagua ? 'Con liquido ' + x.hayagua + '%' : 'Sin liquido' }}</p>
+		
+		</td>
+		
+		<td>
+			<div class="container">
+				<div class="de">
+					<div class="den">
+					<div class="dene">
+						<div class="denem">
+						<div class="deneme">
+							{{x.temperatura}}<strong>&deg;</strong>
+						</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+			<!-- https://codepen.io/birkof/pen/yvEAl -->
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			
+			<div class="outer">
+				<div id="container-speed" class="chart-container"></div>
+			</div>
+			<!--  https://codepen.io/leandroweduka/pen/ErLPJz   -->
+			
+						
+
+			
+			<h3 style="text-align: center;">Calidad del aire: <spam id="sp">{{x.calidadaire}}</spam> ppm</h3>
+			<script>  
+				setTimeout('hola(400);',300);
+			</script>
+			
+		</td>
+	</tr>
+</table>
+</div>
+<table style="height:300px; width: 100%;" >
+<tr>
+	<td width="10%"></td>
+	<td width="80%">
+		<div id="map"></div>
+	</td>
+	<td width="10%"></td>
+	
+</tr>
+</table>
+<br/>
+<br/>
+<br/>
+	<script>
+
+      // The following example creates complex markers to indicate beaches near
+      // Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+      // to the base of the flagpole.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: {lat: 14.5, lng: -90.76}
+        });
+
+        setMarkers(map);
+      }
+
+      // Data for the markers consisting of a name, a LatLng and a zIndex for the
+      // order in which these markers should display on top of each other.
+      var beaches = [
+        [14.585197, -90.487424],
+        [14.52, -90.48]
+      ];
+
+      function setMarkers(map) {
+        // Adds markers to the map.
+
+        // Marker sizes are expressed as a Size of X,Y where the origin of the image
+        // (0,0) is located in the top left of the image.
+
+        // Origins, anchor positions and coordinates of the marker increase in the X
+        // direction to the right and in the Y direction down.
+     
+        // Shapes define the clickable region of the icon. The type defines an HTML
+        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+        // The final coordinate closes the poly by connecting to the first coordinate.
+		
+		$.getJSON('https://arqui2proyecto1.appspot.com/api/Estados?filter[order]=id%20DESC&filter[limit]=1', function(data) {
+		//$.getJSON('https://arqui2proyecto1.appspot.com/api/Estados?filter[order]=id%20DESC&filter', function(data) {
+		
+		for(var a = 0; a < data.length; a++){
+			var st = data[a].posicion;
+			var rs = st.split(",");
+			if(rs.length == 2){
+				var lt = parseFloat(rs[0]);
+				var ln = parseFloat(rs[1]);
+				var marker = new google.maps.Marker({
+					position: {lat: lt, lng: ln},
+					map: map
+				});
+			}
+		}
+		/*for (var i = 0; i < beaches.length; i++) {
+          var beach = beaches[i];
+          
+        }*/
+		
+		});
+		
+        
+      }
+    </script>
+	
+	
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSsDpm3lDDEJydP7xn4_sgezl0aPchnko&callback=initMap">
+    </script>
+
+<script>
+function hola(cantidad){
+
+cantidad = 	document.getElementById("sp").innerHTML * 1;
+
+var gaugeOptions = {
+
+  chart: {
+    type: 'solidgauge'
+  },
+
+  title: null,
+
+  pane: {
+    center: ['50%', '85%'],
+    size: '120%',
+    startAngle: -90,
+    endAngle: 90,
+    background: {
+      backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+      innerRadius: '60%',
+      outerRadius: '100%',
+      shape: 'arc'
+    }
+  },
+
+  tooltip: {
+    enabled: false
+  },
+
+  // the value axis
+  yAxis: {
+    stops: [
+/*      [0.5, '#55BF3B'], // red
+      [0.7, '#DDDF0D'], // yellow
+      [0.8, '#DF5353'] // green*/
+      [0.16, '#1dff00'],   //verde 
+      [0.32, '#fff600'],   //amarillo
+      [0.48, '#ff8300'],   //naranja
+      [0.64, '#ff0000'],   //rojo
+      [0.80, '#6b1170'],   //morado
+      [0.96, '#2d0519'],   //corinto
+    ],
+    lineWidth: 0,
+    minorTickInterval: null,
+    tickAmount: 2,
+    title: {
+      y: -70
+    },
+    labels: {
+      y: 16
+    }
+  },
+
+  plotOptions: {
+    solidgauge: {
+      dataLabels: {
+        y: 5,
+        borderWidth: 0,
+        useHTML: true
+      }
+    }
+  }
+};
+
+// The speed gauge
+var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+  yAxis: {
+    min: 200,
+    max: 1000,
+    title: {
+      text: 'Nivel de ppm'
+    }
+  },
+
+  credits: {
+    enabled: false
+  },
+
+  series: [{
+    name: 'Termômetro GPTW',
+    data: [cantidad],
+    dataLabels: {
+      format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+        ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+           '<span style="font-size:12px;color:silver"></span></div>'
+    }
+  }]
+
+}));
+
+}  
+
+
+</script>
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+	//$http.get("http://localhost:3000/api/Estados")
+	$http.get("./api/Estados?filter[order]=id%20DESC&filter[limit]=1")
+    .then(function (response) {$scope.names = response.data;});
+});
+</script>
+
+
+</body>
+</html>
