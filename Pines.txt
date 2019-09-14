@@ -5,6 +5,6 @@ INGRID -> 3, 2, 4, 5, A0
 MARIO -> 22, 23, 24, A1
 
 Hola ingrid
-Sabes, algun dia Yaiza estara a mis pies XD.
+
 
 Hola que tal Ingrid estuvo aqui xd
