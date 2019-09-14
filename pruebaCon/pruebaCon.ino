@@ -3,7 +3,7 @@
 #include <NTPClient.h>              //https://github.com/taranais/NTPClient
 #include <WiFiUdp.h>
 #include "ESP8266HTTPClient.h"
-#include "WifiLocation.h"           //https://github.com/gmag11/WifiLocation
+#include <WifiLocation.h>           //https://github.com/gmag11/WifiLocation
 
 
 
