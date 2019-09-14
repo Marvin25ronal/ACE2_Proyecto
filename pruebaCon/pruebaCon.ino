@@ -84,8 +84,8 @@ void loop() {
   
   //delay(1000);
   getTime();
-latitud = "14.6481152";
-longitud = "-90.5723877";
+/*latitud = "14.6481152";
+longitud = "-90.5723877";*/
   
   String informacion_gps="";
   informacion_gps=latitud;
